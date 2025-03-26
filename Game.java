@@ -1,7 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.util.Scanner;
+import java.util.*;
 
 @SuppressWarnings("unused") public class Game {
     private JFrame frame;
@@ -22,10 +22,43 @@ import java.util.Scanner;
         return ret;
     }
 
-    public Player[] differPlayers(ArrayList<String> input) {
-        for(int i=0; i<input.size();i++) {
-            
+    public ArrayList<String> inputPlayerTextArea(JTextArea area) {
+        AraryList<String> ret = new ArrayList<String>();
+        area.addKeyListener(new KeyListener() {
+            // @Override
+            // public void keyTyped(KeyEvent e) {}
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    if(!area.getText().equals("") || !area.getText().equals(" ")) {
+                        System.out.println("Player Entered: " + area.getText());
+                        ret.add(new Player(area.getText()));
+                        area.setText("");
+                    } else {
+                        System.out.println("All Players Entered");
+                        return ret;
+                    }
+            }
+
+            // @Override
+            // public void keyReleased(KeyEvent e) {}
         }
+        });
+    }
+
+    public Player[] differPlayers(ArrayList<String> input) {
+        Player[] ret = new Player[input.size()];
+        for(int i=0; i<input.size();i++) {
+            if(input.get(i).getName().indexOf("CPU") != -1) {
+
+                ret[i] = new Bot(input.get(i).getName());
+
+            } else {
+                ret[i] = input.get(i);
+            }
+        }
+        return ret;
     }
 
     public Game() {
