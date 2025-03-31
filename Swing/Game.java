@@ -7,6 +7,7 @@ import java.util.*;
     private JFrame frame;
     private JTextArea textArea;
     private Player[] playerList;
+    private String difficulty;
 
     // public ArrayList<String> inputPlayer() {
     //     ArrayList<String> ret = new ArrayList<String>();
@@ -48,31 +49,42 @@ import java.util.*;
         // }
         // });
         // if(stop) {return ret;}
-        String ret;
-        int keyCode = e.getkeyCode();
-        if(keyCode = KeyEvent.VK_ENTER) {
-            ret = area.getText();
-            area.setText("");
-        }
-        return ret;
+        // String ret;
+        // int keyCode = e.getkeyCode();
+        // if(keyCode = KeyEvent.VK_ENTER) {
+        //     ret = area.getText();
+        //     area.setText("");
+        // }
+        return null;
     }
 
-    public String[] compileNameList(TextArea area, KeyEvent e) {
-        boolean stop = false;
-        ArrayList<String> buffer = new ArrayList<String>();
+    public String getDifficulty(TextArea area) {
 
-        while(!stop) {
-            if(!(inputPlayerTextArea(area, e).equals(""))) {
-                buffer.add(inputPlayerTextArea(area, e));
-            } else if (inputPlayerTextArea(area, e).equals("")) {
-                stop = true;
+
+        return null;
+    }
+
+    public String[] compileNameList(TextArea area) {
+        boolean stop = false;
+
+        int count = 0;
+        for (int i = 0; i < area.getText().length(); i++) {
+            if (area.getText().indexOf(",") != -1 || area.getText().indexOf(".") != -1 ) {
+                count++;
             }
         }
 
-        String[] ret = new String[buffer.size()];
+        String[] ret = new String[count];
 
-        for(int i=0;i<buffer.size();i++) {
-            ret[i] = buffer.get(i);
+        String buffer = area.getText();
+
+        int index = 0;
+        int nextPunc = buffer.getText().indexOf(",");
+
+        for(int i = 0; i<count;i++){
+            ret[i] = buffer.getText().substring(index, nextPunc);
+            buffer = buffer.substring(nextPunc+1);
+            nextPunc = buffer.getText().indexOf(",");
         }
 
         return ret;
@@ -81,7 +93,7 @@ import java.util.*;
     public Player[] differPlayers(ArrayList<String> input) {
         Player[] ret = new Player[input.size()];
         for(int i=0; i<input.size();i++) {
-            if(input.get(i).getName().indexOf("CPU") != -1) {
+            if(input.get(i).indexOf("CPU") != -1) {
 
                 ret[i] = new Bot(input.get(i));
 
@@ -104,15 +116,15 @@ import java.util.*;
         panel.add(textArea);
         frame.add(textArea);
 
-        playerList = differPlayers(inputPlayerTextArea(textArea));
+        // playerList = differPlayers(inputPlayerTextArea(textArea));
 
-        MouseListener charInputStop = new MouseAdapter() {
-            @Override
-            public void mouseReleased(MouseEvent e) {
+        // MouseListener charInputStop = new MouseAdapter() {
+        //     @Override
+        //     public void mouseReleased(MouseEvent e) {
 
-            }
-        };
-        finishCharInpButton.addMouseListener(charInputStop);
+        //     }
+        // };
+        // finishCharInpButton.addMouseListener(charInputStop);
         frame.setVisible(true);
     }
 

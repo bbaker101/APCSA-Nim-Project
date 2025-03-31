@@ -31,4 +31,8 @@
         return score;
     }
 
+    public int getMove(int left) {
+        return -1;
+    }
+
 }
